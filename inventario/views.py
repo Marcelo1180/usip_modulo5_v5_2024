@@ -11,6 +11,10 @@ def contact(request, name):
 
 def categorias(request):
     filtro_nombre = request.GET.get("nombre")
-    print(filtro_nombre)
-    items = Categoria.objects.all()
+    print(filtro_nombre) 
+    items = Categoria.objects.all() 
+    if filtro_nombre:
+        items = Categoria.objects.filter(nombre__icontains=filtro_nombre) 
+        
+
     return render(request, "categorias.html", {"categorias": items})
