@@ -11,5 +11,8 @@ urlpatterns = [
     # path('categorias/', views.categorias, name='categorias'),
     # path('productos/', views.productoFormView, name='productos'),
     # path('saludo/', views.index),
-    path('', include(router.urls))
+    # path('', include(router.urls))
+    path('categorias/', views.CategoriaCreateView.as_view()),
+    path('categorias/cantidad/', views.categoria_count),
+    path('productos/filrar/unidades/', views.productos_en_unidades),
 ]
