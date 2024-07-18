@@ -16,5 +16,4 @@ class ProductoSerializer(serializers.ModelSerializer):
 
 class ReporteProductosSerializer(serializers.Serializer):
     cantidad = serializers.IntegerField()
-    producto = ProductoSerializer(many=True)
-
+    productos = ProductoSerializer(many=True)

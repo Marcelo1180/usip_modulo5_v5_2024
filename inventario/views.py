@@ -4,7 +4,7 @@ from .models import Categoria, Producto
 from .form import ProductForm
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
-from .serializers import CategoriaSerializer, ProductoSerializer
+from .serializers import CategoriaSerializer, ProductoSerializer, ReporteProductosSerializer
 from rest_framework import generics
 from rest_framework.decorators import api_view
 
@@ -93,6 +93,33 @@ def productos_en_unidades(requesto):
         productos = Producto.objects.filter(unidades='u')
         return JsonResponse(
             ProductoSerializer(productos, many=True).data,
+            safe=False,
+            status=200,
+        )
+    except Exception as e:
+        return JsonResponse(
+            {
+                "error": str(e)
+            },
+            safe=False,
+            status=400
+        )
+
+
+@api_view(['GET'])
+def reporte_productos(request):
+    """
+    Reporte de productos por categoria
+    """
+
+    try:
+        productos = Producto.objects.filter(unidades='u')
+        cantidad = productos.count()
+        return JsonResponse(
+            ReporteProductosSerializer({
+                "cantidad": cantidad,
+                "productos": productos
+            }).data,
             safe=False,
             status=200,
         )
