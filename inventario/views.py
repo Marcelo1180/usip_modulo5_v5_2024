@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from .models import Categoria, Producto
 from .form import ProductForm
 from django.shortcuts import get_object_or_404
+from rest_framework import viewsets
+from .serializers import CategoriaSerializer
 
 
 def index(request):
@@ -43,3 +45,8 @@ def productoFormView(request):
         form.save()
 
     return render(request, "form_productos.html", {"form": form})
+
+
+class CategoriasViewSet(viewsets.ModelViewSet):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
