@@ -7,6 +7,9 @@ from rest_framework import viewsets
 from .serializers import CategoriaSerializer, ProductoSerializer, ReporteProductosSerializer, ContactSerializer
 from rest_framework import generics
 from rest_framework.decorators import api_view
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsUserAlmacen
 
 
 def index(request):
@@ -133,6 +136,7 @@ def reporte_productos(request):
         )
 
 @api_view(['POST'])
+@permission_classes([IsUserAlmacen])
 def enviar_mensaje(request):
     """
     Envia un mensaje a un destinatario
