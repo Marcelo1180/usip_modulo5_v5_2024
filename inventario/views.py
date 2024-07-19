@@ -11,6 +11,10 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsUserAlmacen
 from .utils import permission_required
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -138,13 +142,15 @@ def reporte_productos(request):
 
 @api_view(['POST'])
 # @permission_classes([IsUserAlmacen])
-@permission_required(['inventario.reporte_cantidad',])
+# @permission_required(['inventario.reporte_cantidad',])
 def enviar_mensaje(request):
     """
     Envia un mensaje a un destinatario
     """
     cs = ContactSerializer(data=request.data)
     if cs.is_valid():
+        logger.info("Mensaje enviado OK")
         return JsonResponse({"mensaje": "Mensaje enviado"}, status=200)
     else:
+        logger.critical(cs.errors)
         return JsonResponse(cs.errors, status=400)
