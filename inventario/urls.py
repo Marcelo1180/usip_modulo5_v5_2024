@@ -16,4 +16,5 @@ urlpatterns = [
     path('categorias/cantidad/', views.categoria_count),
     path('productos/filrar/unidades/', views.productos_en_unidades),
     path('productos/reporte/', views.reporte_productos),
+    path('contact/', views.enviar_mensaje),
 ]

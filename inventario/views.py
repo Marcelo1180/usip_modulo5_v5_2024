@@ -4,7 +4,7 @@ from .models import Categoria, Producto
 from .form import ProductForm
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
-from .serializers import CategoriaSerializer, ProductoSerializer, ReporteProductosSerializer
+from .serializers import CategoriaSerializer, ProductoSerializer, ReporteProductosSerializer, ContactSerializer
 from rest_framework import generics
 from rest_framework.decorators import api_view
 
@@ -48,12 +48,12 @@ def productoFormView(request):
 
     return render(request, "form_productos.html", {"form": form})
 
-
+# MODEL VIEW SET
 class CategoriasViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
 
-
+# GENERIC API VIEW
 class CategoriaCreateView(generics.CreateAPIView, generics.ListAPIView):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
@@ -131,3 +131,14 @@ def reporte_productos(request):
             safe=False,
             status=400
         )
+
+@api_view(['POST'])
+def enviar_mensaje(request):
+    """
+    Envia un mensaje a un destinatario
+    """
+    cs = ContactSerializer(data=request.data)
+    if cs.is_valid():
+        return JsonResponse({"mensaje": "Mensaje enviado"}, status=200)
+    else:
+        return JsonResponse(cs.errors, status=400)
