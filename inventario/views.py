@@ -10,6 +10,7 @@ from rest_framework.decorators import api_view
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsUserAlmacen
+from .utils import permission_required
 
 
 def index(request):
@@ -136,7 +137,8 @@ def reporte_productos(request):
         )
 
 @api_view(['POST'])
-@permission_classes([IsUserAlmacen])
+# @permission_classes([IsUserAlmacen])
+@permission_required(['inventario.reporte_cantidad',])
 def enviar_mensaje(request):
     """
     Envia un mensaje a un destinatario
